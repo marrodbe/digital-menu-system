@@ -1,266 +1,436 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap');
+/* =========================================================
+   DIGITAL MENU SYSTEM
+   Main Player Styles
+   ========================================================= */
 
-html, body {
+
+/* =========================
+   FONTS
+   ========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+
+
+/* =========================
+   GLOBAL
+   ========================= */
+
+html,
+body {
   margin: 0;
   padding: 0;
+
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  background: black;
-}
 
-body {
+  overflow: hidden;
+
+  background: #000;
+
   font-family: 'Inter', sans-serif;
 }
 
-/* HERO CONTAINER */
+
+/* =========================
+   HERO CONTAINER
+   ========================= */
 
 .menu-container {
+  position: relative;
+
   width: 100vw;
   height: 100vh;
-  position: relative;
+
   overflow: hidden;
+
+  background: #000;
 }
+
+
+/* =========================
+   BACKGROUND IMAGE
+   ========================= */
 
 #cocktail-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   position: absolute;
 
-  opacity: 1;
-  transform: scale(1.03);
-
-  transition:
-    opacity 1.5s ease-in-out,
-    transform 8s ease-in-out;
-}
-
-#background-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
   top: 0;
   left: 0;
 
-  opacity: 0;
-  transition: opacity 1s ease;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  opacity: 1;
+
+  transform: scale(1.03);
+
+  /*
+   * Keep image animation separate from slide timing.
+   * JavaScript controls slide duration.
+   */
+  transition:
+    opacity 0.8s ease-in-out,
+    transform 6s ease-out;
 }
+
+
+/* =========================
+   BACKGROUND VIDEO
+   ========================= */
+
+#background-video {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  opacity: 0;
+
+  transition: opacity 0.8s ease-in-out;
+}
+
+
+/* =========================
+   OVERLAY
+   ========================= */
 
 .overlay {
   position: absolute;
+
   inset: 0;
-  background: rgba(0,0,0,0.4);
+
+  background: rgba(0, 0, 0, 0.4);
+
   z-index: 1;
-}
 
-.menu-content {
-  position: absolute;
-  bottom: 100px;
-  left: 100px;
-  color: white;
-  z-index: 10;
-  max-width: 700px;
-}
-
-#cocktail-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 96px;
-  margin: 0;
-  line-height: 1;
-  letter-spacing: -2px;
-}
-
-#cocktail-description {
-  font-size: 28px;
-  margin-top: 24px;
-  line-height: 1.5;
-  font-weight: 300;
-  opacity: 0.9;
-}
-
-#cocktail-price {
-  font-size: 44px;
-  margin-top: 32px;
-  font-weight: 500;
-}
-
-/* LOGO */
-
-.logo {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  z-index: 1000;
   pointer-events: none;
 }
 
-.logo img {
-  height: 60px;
-  width: auto;
-  object-fit: contain;
-  opacity: 0.95;
-  filter: drop-shadow(0 4px 15px rgba(0,0,0,0.9));
+
+/* =========================
+   LOGO
+   ========================= */
+
+.logo {
+  position: absolute;
+
+  top: 40px;
+  left: 40px;
+
+  z-index: 20;
+
+  pointer-events: none;
 }
 
-/* PROGRESS BAR */
+
+.logo img {
+  display: block;
+
+  height: 60px;
+  width: auto;
+
+  object-fit: contain;
+
+  opacity: 0.95;
+
+  filter: drop-shadow(
+    0 4px 15px rgba(0, 0, 0, 0.9)
+  );
+}
+
+
+/* =========================
+   MENU CONTENT
+   ========================= */
+
+.menu-content {
+  position: absolute;
+
+  left: 100px;
+  bottom: 100px;
+
+  max-width: 700px;
+
+  color: #fff;
+
+  z-index: 10;
+}
+
+
+/* =========================
+   COCKTAIL NAME
+   ========================= */
+
+#cocktail-name {
+  margin: 0;
+
+  font-family: 'Playfair Display', serif;
+
+  font-size: 96px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+}
+
+
+/* =========================
+   DESCRIPTION
+   ========================= */
+
+#cocktail-description {
+  margin-top: 24px;
+  margin-bottom: 0;
+
+  font-size: 28px;
+  font-weight: 300;
+
+  line-height: 1.5;
+
+  opacity: 0.9;
+}
+
+
+/* =========================
+   PRICE
+   ========================= */
+
+#cocktail-price {
+  margin-top: 32px;
+
+  font-size: 44px;
+  font-weight: 500;
+}
+
+
+/* =========================
+   TEXT TRANSITIONS
+   ========================= */
+
+#cocktail-name,
+#cocktail-description,
+#cocktail-price {
+  opacity: 1;
+
+  transform: translateY(0);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+
+.fade-out {
+  opacity: 0 !important;
+
+  transform: translateY(15px) !important;
+}
+
+
+.fade-in {
+  opacity: 1 !important;
+
+  transform: translateY(0) !important;
+}
+
+
+/* =========================
+   PROGRESS BAR
+   ========================= */
 
 .progress-bar {
   position: absolute;
-  bottom: 0;
+
   left: 0;
+  bottom: 0;
 
   width: 100%;
   height: 6px;
 
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.12);
+
   z-index: 30;
+
+  overflow: hidden;
 }
+
 
 .progress {
   width: 0%;
   height: 100%;
-  background: white;
-  animation: progressAnimation 5s linear infinite;
+
+  background: #fff;
+
+  /*
+   * IMPORTANT:
+   * No CSS animation here.
+   *
+   * player.js / ui.js control the timing so
+   * the progress bar stays synchronized with
+   * the slide rotation.
+   */
 }
 
-@keyframes progressAnimation {
-  from { width: 0%; }
-  to { width: 100%; }
-}
 
-/* GRID LAYOUT */
+/* =========================================================
+   GRID LAYOUT
+   ========================================================= */
 
 #grid-layout {
   position: absolute;
+
   top: 0;
   left: 0;
 
   width: 100%;
   height: 100%;
 
+  box-sizing: border-box;
+
   padding: 60px 80px;
 
   background: #0b0b0b;
-  color: white;
+
+  color: #fff;
 
   overflow-y: auto;
+
   display: none;
+
+  z-index: 40;
 }
 
+
 .grid-card {
-  background: rgba(0,0,0,0.55);
-  border-radius: 24px;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
+
+  overflow: hidden;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  border-radius: 24px;
+
+  backdrop-filter: blur(10px);
 }
+
 
 .grid-card img {
   width: 100%;
   height: 200px;
+
   object-fit: cover;
 }
+
 
 .grid-info {
   padding: 24px;
 }
 
+
 .grid-name {
   font-size: 42px;
-  font-weight: bold;
+  font-weight: 600;
 }
+
 
 .grid-description {
-  font-size: 20px;
-  opacity: 0.8;
   margin-top: 8px;
+
+  font-size: 20px;
+
+  opacity: 0.8;
 }
+
 
 .grid-price {
-  font-size: 28px;
   margin-top: 16px;
+
+  font-size: 28px;
 }
 
-/* FOOD MENU (COCINA) */
+
+/* =========================
+   GRID HERO ADAPTATION
+   ========================= */
+
+body[data-layout="grid"] .menu-content {
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+
+  max-width: 900px;
+
+  transform: translate(-50%, -50%);
+
+  text-align: center;
+}
+
+
+body[data-layout="grid"] #cocktail-name {
+  font-size: 72px;
+}
+
+
+body[data-layout="grid"] #cocktail-description {
+  font-size: 24px;
+}
+
+
+/* =========================================================
+   FOOD MENU
+   ========================================================= */
 
 .food-row {
   display: flex;
+
   justify-content: space-between;
   align-items: flex-start;
 
   padding: 28px 0;
 
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.08);
 
-  overflow: hidden; /* prevents cut-off */
+  overflow: hidden;
 }
+
 
 .food-left {
   max-width: 70%;
 }
+
 
 .food-name {
   font-size: 34px;
   font-weight: 600;
 }
 
+
 .food-desc {
-  font-size: 20px;
-  opacity: 0.6;
   margin-top: 6px;
+
+  font-size: 20px;
+
+  opacity: 0.6;
 }
+
 
 .food-price {
-  font-size: 28px;
-  font-weight: bold;
-
   min-width: 140px;
+
+  flex-shrink: 0;
+
+  font-size: 28px;
+  font-weight: 600;
+
   text-align: right;
-
-  flex-shrink: 0; /* CRITICAL FIX */
-}
-
-/* GRID HERO ADAPTATION */
-
-body[data-layout="grid"] .menu-content {
-  top: 50%;
-  left: 50%;
-  bottom: auto;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  max-width: 900px;
-}
-
-body[data-layout="grid"] #cocktail-name {
-  font-size: 72px;
-}
-
-body[data-layout="grid"] #cocktail-description {
-  font-size: 24px;
-}
-
-/* ANIMATIONS */
-
-.fade-out {
-  opacity: 0 !important;
-  transform: translateY(20px);
-}
-
-.fade-in {
-  opacity: 1 !important;
-  transform: translateY(0px);
-}
-
-#cocktail-name,
-#cocktail-description,
-#cocktail-price {
-  transition:
-    opacity 1s ease,
-    transform 1s ease;
-
-  opacity: 1;
-  transform: translateY(0px);
 }

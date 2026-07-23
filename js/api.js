@@ -52,3 +52,17 @@ async function getMenuItems(menuItemIds) {
 
     return data;
 }
+
+function getAssetUrl(path) {
+
+    if (!path) {
+        return null;
+    }
+
+    const { data } = db
+        .storage
+        .from("menu-assets")
+        .getPublicUrl(path);
+
+    return data.publicUrl;
+}
