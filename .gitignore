@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# VS Code local settings
+.vscode/
+
+# Node dependencies (future use)
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs
+*.log

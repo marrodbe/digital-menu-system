@@ -1,16 +1,22 @@
 console.log("APP START");
 
-const SUPABASE_URL =
-  "https://yuoeunioviahidgmyutr.supabase.co";
+const supabaseClient = db;
 
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1b2V1bmlvdmlhaGlkZ215dXRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjM4MDAsImV4cCI6MjA5NDE5OTgwMH0.IVGtXHt1C_9ZYymNjrrcKscP-VthrvkZH3U_rQU9Vjk";
+async function testDatabase() {
 
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+    const { data, error } = await supabaseClient
+        .from("venues")
+        .select("*");
+
+    console.log("VENUES");
+
+    console.log(data);
+
+    console.log(error);
+
+}
+
+testDatabase();
 
 let cocktails = [];
 let current = 0;

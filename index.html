@@ -2,59 +2,65 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Menu Display</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distrito Carmen Menu Player</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <div class="menu-container">
+    <div class="menu-container">
 
-    <!-- Background Image -->
-    <img id="cocktail-image" />
+        <!-- Background Image -->
+        <img id="cocktail-image" />
 
-    <!-- Background Video -->
-    <video
-      id="background-video"
-      autoplay
-      muted
-      loop
-      playsinline>
-    </video>
+        <!-- Background Video -->
+        <video
+            id="background-video"
+            autoplay
+            muted
+            loop
+            playsinline>
+        </video>
 
-    <!-- Overlay -->
-    <div class="overlay"></div>
+        <!-- Overlay -->
+        <div class="overlay"></div>
 
-    <!-- LOGO -->
-    <div class="logo">
-      <img src="https://yuoeunioviahidgmyutr.supabase.co/storage/v1/object/public/menu-images/logos%20venues.png" alt="Casa Felix Logo" />
+        <!-- Logo 
+        <div class="logo">
+            <img src="https://yuoeunioviahidgmyutr.supabase.co/storage/v1/object/public/menu-images/logos%20venues.png"
+                alt="Venue Logo">
+        </div> -->
+
+        <!-- Content -->
+        <div class="menu-content">
+            <h1 id="cocktail-name"></h1>
+            <p id="cocktail-description"></p>
+            <div id="cocktail-price"></div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
     </div>
 
-    <!-- CONTENT -->
-    <div class="menu-content">
-      <h1 id="cocktail-name"></h1>
-      <p id="cocktail-description"></p>
-      <div id="cocktail-price"></div>
-    </div>
+    <!-- Grid Layout -->
+    <div id="grid-layout"></div>
 
-    <!-- PROGRESS BAR -->
-    <div class="progress-bar">
-      <div class="progress"></div>
-    </div>
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  </div>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
 
-  <!-- GRID LAYOUT -->
-  <div id="grid-layout"></div>
-
-  <!-- JS (always last) -->
-  <script src="script.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/player.js"></script>
 
 </body>
 
