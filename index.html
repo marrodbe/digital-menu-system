@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Display</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+
+<body>
+
+  <div class="menu-container">
+
+    <!-- Background Image -->
+    <img id="cocktail-image" />
+
+    <!-- Background Video -->
+    <video
+      id="background-video"
+      autoplay
+      muted
+      loop
+      playsinline>
+    </video>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- LOGO -->
+    <div class="logo">
+      <img src="https://yuoeunioviahidgmyutr.supabase.co/storage/v1/object/public/menu-images/logos%20venues.png" alt="Casa Felix Logo" />
+    </div>
+
+    <!-- CONTENT -->
+    <div class="menu-content">
+      <h1 id="cocktail-name"></h1>
+      <p id="cocktail-description"></p>
+      <div id="cocktail-price"></div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+
+  </div>
+
+  <!-- GRID LAYOUT -->
+  <div id="grid-layout"></div>
+
+  <!-- JS (always last) -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>

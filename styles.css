@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* HERO CONTAINER */
+
+.menu-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+#cocktail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+
+  opacity: 1;
+  transform: scale(1.03);
+
+  transition:
+    opacity 1.5s ease-in-out,
+    transform 8s ease-in-out;
+}
+
+#background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.menu-content {
+  position: absolute;
+  bottom: 100px;
+  left: 100px;
+  color: white;
+  z-index: 10;
+  max-width: 700px;
+}
+
+#cocktail-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 96px;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+#cocktail-description {
+  font-size: 28px;
+  margin-top: 24px;
+  line-height: 1.5;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+#cocktail-price {
+  font-size: 44px;
+  margin-top: 32px;
+  font-weight: 500;
+}
+
+/* LOGO */
+
+.logo {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.logo img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.95;
+  filter: drop-shadow(0 4px 15px rgba(0,0,0,0.9));
+}
+
+/* PROGRESS BAR */
+
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 6px;
+
+  background: rgba(255,255,255,0.1);
+  z-index: 30;
+}
+
+.progress {
+  width: 0%;
+  height: 100%;
+  background: white;
+  animation: progressAnimation 5s linear infinite;
+}
+
+@keyframes progressAnimation {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* GRID LAYOUT */
+
+#grid-layout {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 60px 80px;
+
+  background: #0b0b0b;
+  color: white;
+
+  overflow-y: auto;
+  display: none;
+}
+
+.grid-card {
+  background: rgba(0,0,0,0.55);
+  border-radius: 24px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.grid-info {
+  padding: 24px;
+}
+
+.grid-name {
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.grid-description {
+  font-size: 20px;
+  opacity: 0.8;
+  margin-top: 8px;
+}
+
+.grid-price {
+  font-size: 28px;
+  margin-top: 16px;
+}
+
+/* FOOD MENU (COCINA) */
+
+.food-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  padding: 28px 0;
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  overflow: hidden; /* prevents cut-off */
+}
+
+.food-left {
+  max-width: 70%;
+}
+
+.food-name {
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.food-desc {
+  font-size: 20px;
+  opacity: 0.6;
+  margin-top: 6px;
+}
+
+.food-price {
+  font-size: 28px;
+  font-weight: bold;
+
+  min-width: 140px;
+  text-align: right;
+
+  flex-shrink: 0; /* CRITICAL FIX */
+}
+
+/* GRID HERO ADAPTATION */
+
+body[data-layout="grid"] .menu-content {
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  max-width: 900px;
+}
+
+body[data-layout="grid"] #cocktail-name {
+  font-size: 72px;
+}
+
+body[data-layout="grid"] #cocktail-description {
+  font-size: 24px;
+}
+
+/* ANIMATIONS */
+
+.fade-out {
+  opacity: 0 !important;
+  transform: translateY(20px);
+}
+
+.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0px);
+}
+
+#cocktail-name,
+#cocktail-description,
+#cocktail-price {
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+
+  opacity: 1;
+  transform: translateY(0px);
+}
