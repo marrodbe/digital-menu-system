@@ -346,10 +346,10 @@ body {
 #kitchen-logo {
   display: block;
 
-  width: 320px;
+  width: 400px;
   height: auto;
 
-  max-height: 220px;
+  max-height: 280px;
 
   object-fit: contain;
   object-position: center;
@@ -455,7 +455,7 @@ body {
   min-width: 0;
 
   font-size:
-    clamp(27px, 2.2vw, 42px);
+    clamp(30px, 2.4vw, 46px);
 
   font-weight: 400;
 
@@ -477,7 +477,7 @@ body {
   white-space: nowrap;
 
   font-size:
-    clamp(27px, 2.1vw, 40px);
+    clamp(30px, 2.3vw, 44px);
 
   font-weight: 500;
 
