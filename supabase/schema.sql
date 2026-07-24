@@ -63,6 +63,22 @@ CREATE TABLE IF NOT EXISTS "public"."categories" (
 ALTER TABLE "public"."categories" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."menu_item_media" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "menu_item_id" "uuid" NOT NULL,
+    "file_path" "text" NOT NULL,
+    "media_type" "text" DEFAULT 'image'::"text" NOT NULL,
+    "display_order" integer DEFAULT 0 NOT NULL,
+    "active" boolean DEFAULT true NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    CONSTRAINT "menu_item_media_media_type_check" CHECK (("media_type" = ANY (ARRAY['image'::"text", 'video'::"text"])))
+);
+
+
+ALTER TABLE "public"."menu_item_media" OWNER TO "postgres";
+
+
 CREATE TABLE IF NOT EXISTS "public"."menu_items" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "venue_id" "uuid" NOT NULL,
@@ -128,6 +144,11 @@ ALTER TABLE ONLY "public"."categories"
 
 
 
+ALTER TABLE ONLY "public"."menu_item_media"
+    ADD CONSTRAINT "menu_item_media_pkey" PRIMARY KEY ("id");
+
+
+
 ALTER TABLE ONLY "public"."menu_items"
     ADD CONSTRAINT "menu_items_pkey" PRIMARY KEY ("id");
 
@@ -155,6 +176,11 @@ ALTER TABLE ONLY "public"."venues"
 
 ALTER TABLE ONLY "public"."venues"
     ADD CONSTRAINT "venues_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."menu_item_media"
+    ADD CONSTRAINT "menu_item_media_menu_item_id_fkey" FOREIGN KEY ("menu_item_id") REFERENCES "public"."menu_items"("id") ON DELETE CASCADE;
 
 
 
@@ -187,6 +213,10 @@ CREATE POLICY "Public read access" ON "public"."categories" FOR SELECT TO "authe
 
 
 
+CREATE POLICY "Public read access" ON "public"."menu_item_media" FOR SELECT TO "authenticated", "anon" USING (true);
+
+
+
 CREATE POLICY "Public read access" ON "public"."menu_items" FOR SELECT TO "authenticated", "anon" USING (true);
 
 
@@ -204,6 +234,9 @@ CREATE POLICY "Public read access" ON "public"."venues" FOR SELECT TO "authentic
 
 
 ALTER TABLE "public"."categories" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."menu_item_media" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."menu_items" ENABLE ROW LEVEL SECURITY;
@@ -399,6 +432,12 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 GRANT ALL ON TABLE "public"."categories" TO "anon";
 GRANT ALL ON TABLE "public"."categories" TO "authenticated";
 GRANT ALL ON TABLE "public"."categories" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."menu_item_media" TO "anon";
+GRANT ALL ON TABLE "public"."menu_item_media" TO "authenticated";
+GRANT ALL ON TABLE "public"."menu_item_media" TO "service_role";
 
 
 
