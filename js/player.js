@@ -153,18 +153,30 @@ function startRotation(playerMenu) {
     }
 
     let currentIndex = 0;
+    let firstRender = true;
 
     function showCurrentItem() {
 
-        const currentItem = playerMenu[currentIndex];
+        const currentItem =
+            playerMenu[currentIndex];
 
-        // Render image + text
-        renderHero(currentItem);
+        if (firstRender) {
 
-        // Start progress bar
+            // First item appears immediately
+            renderHero(currentItem);
+
+            firstRender = false;
+
+        } else {
+
+            // Remaining items use fade transition
+            transitionHero(currentItem);
+
+        }
+
+        // Progress bar remains synchronized
         restartProgressBar(SLIDE_DURATION);
 
-        // Don't rotate if there is only one item
         if (playerMenu.length === 1) {
             return;
         }
@@ -172,7 +184,8 @@ function startRotation(playerMenu) {
         setTimeout(() => {
 
             currentIndex =
-                (currentIndex + 1) % playerMenu.length;
+                (currentIndex + 1) %
+                playerMenu.length;
 
             showCurrentItem();
 

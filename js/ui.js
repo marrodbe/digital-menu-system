@@ -1,51 +1,196 @@
 // js/ui.js
 
-console.log("UI LOADED");
+const TRANSITION_DURATION = 400;
+
+let activeImage = "a";
+
+
+// ==============================
+// RENDER HERO
+// ==============================
 
 function renderHero(item) {
 
-    // TEXT
-    document.getElementById("cocktail-name").textContent =
-        item.name;
+    if (!item) {
+        console.error("No item provided to renderHero.");
+        return;
+    }
 
-    document.getElementById("cocktail-description").textContent =
-        item.description || "";
+    const imageA =
+        document.getElementById("cocktail-image-a");
 
-    document.getElementById("cocktail-price").textContent =
-        `$${Number(item.price).toFixed(2)}`;
+    const imageB =
+        document.getElementById("cocktail-image-b");
 
-
-    // IMAGE
-    const imageElement = document.getElementById("cocktail-image");
-
+    // Primera carga
     if (item.image_url) {
 
-        imageElement.src = item.image_url;
-        imageElement.style.display = "block";
+        imageA.src = item.image_url;
+        imageA.classList.add("active");
 
-    } else {
+        imageB.classList.remove("active");
 
-        imageElement.removeAttribute("src");
-        imageElement.style.display = "none";
+        activeImage = "a";
     }
+
+
+    // TEXT
+    updateHeroContent(item);
 }
+
+
+// ==============================
+// TRANSITION HERO
+// ==============================
+
+function transitionHero(item) {
+
+    if (!item) {
+        return;
+    }
+
+    const imageA =
+        document.getElementById("cocktail-image-a");
+
+    const imageB =
+        document.getElementById("cocktail-image-b");
+
+    const content =
+        document.querySelector(".menu-content");
+
+
+    const currentImage =
+        activeImage === "a"
+            ? imageA
+            : imageB;
+
+    const nextImage =
+        activeImage === "a"
+            ? imageB
+            : imageA;
+
+
+    // Prepare next image
+    if (item.image_url) {
+
+        nextImage.src = item.image_url;
+
+        nextImage.onload = () => {
+
+            // Crossfade images
+            nextImage.classList.add("active");
+            currentImage.classList.remove("active");
+
+        };
+
+        // If image is already cached
+        if (nextImage.complete) {
+
+            nextImage.classList.add("active");
+            currentImage.classList.remove("active");
+
+        }
+
+    }
+
+
+    // Fade text out
+    content.classList.add("hero-fade-out");
+
+
+    setTimeout(() => {
+
+        // Update text while invisible
+        updateHeroContent(item);
+
+        // Fade text back in
+        content.classList.remove("hero-fade-out");
+
+    }, TRANSITION_DURATION);
+
+
+    // Switch active image
+    activeImage =
+        activeImage === "a"
+            ? "b"
+            : "a";
+}
+
+
+// ==============================
+// UPDATE HERO CONTENT
+// ==============================
+
+function updateHeroContent(item) {
+
+    const nameElement =
+        document.getElementById("cocktail-name");
+
+    const descriptionElement =
+        document.getElementById("cocktail-description");
+
+    const priceElement =
+        document.getElementById("cocktail-price");
+
+
+    nameElement.textContent =
+        item.name || "";
+
+    descriptionElement.textContent =
+        item.description || "";
+
+    priceElement.textContent =
+        formatPrice(item.price);
+}
+
+
+// ==============================
+// FORMAT PRICE
+// ==============================
+
+function formatPrice(price) {
+
+    if (
+        price === null ||
+        price === undefined ||
+        price === ""
+    ) {
+        return "";
+    }
+
+    const amount = Number(price);
+
+    if (Number.isNaN(amount)) {
+        return "";
+    }
+
+    return `₡${amount.toLocaleString("es-CR", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    })}`;
+}
+
+
+// ==============================
+// PROGRESS BAR
+// ==============================
 
 function restartProgressBar(duration) {
 
-    const progress = document.querySelector(".progress");
+    const progress =
+        document.querySelector(".progress");
 
     if (!progress) {
         return;
     }
 
-    // Reiniciar animación
     progress.style.transition = "none";
     progress.style.width = "0%";
 
-    // Forzar al navegador a registrar el reset
     void progress.offsetWidth;
 
-    // Iniciar nueva animación
-    progress.style.transition = `width ${duration}ms linear`;
+    progress.style.transition =
+        `width ${duration}ms linear`;
+
     progress.style.width = "100%";
 }
