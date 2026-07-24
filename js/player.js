@@ -450,6 +450,19 @@ function startKitchenRotation(media) {
 }
 
 
+// =====================================================
+// AUTOMATIC PLAYER REFRESH
+// =====================================================
+
+// Reload every 5 minutes so Raspberry Pi screens
+// automatically receive new deployments and updates.
+
+const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000;
+
+setTimeout(() => {
+    window.location.reload();
+}, AUTO_REFRESH_INTERVAL);
+
 // ==============================
 // INITIALIZE
 // ==============================

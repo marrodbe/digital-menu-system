@@ -340,10 +340,14 @@ function formatPrice(price) {
         return "";
     }
 
-    return `₡${amount.toLocaleString("es-CR", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    })}`;
+    const roundedAmount =
+        Math.round(amount);
+
+    const formattedAmount =
+        String(roundedAmount)
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    return `₡${formattedAmount}`;
 }
 
 
