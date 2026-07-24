@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Distrito Carmen Menu Player</title>
 
     <!-- CSS -->
@@ -12,11 +13,28 @@
 
 <body>
 
-    <div class="menu-container">
+    <!-- ==================================================
+         HERO LAYOUT
+         Pub Felix / rotating cocktail screens
+         ================================================== -->
 
-        <!-- Background Image -->
-        <img id="cocktail-image-a" class="cocktail-image active" src="" alt="">
-        <img id="cocktail-image-b" class="cocktail-image" src="" alt="">
+    <div id="hero-layout" class="menu-container">
+
+        <!-- Crossfade Images -->
+        <img
+            id="cocktail-image-a"
+            class="cocktail-image active"
+            src=""
+            alt=""
+        >
+
+        <img
+            id="cocktail-image-b"
+            class="cocktail-image"
+            src=""
+            alt=""
+        >
+
 
         <!-- Background Video -->
         <video
@@ -27,21 +45,22 @@
             playsinline>
         </video>
 
+
         <!-- Overlay -->
         <div class="overlay"></div>
 
-        <!-- Logo 
-        <div class="logo">
-            <img src="https://yuoeunioviahidgmyutr.supabase.co/storage/v1/object/public/menu-images/logos%20venues.png"
-                alt="Venue Logo">
-        </div> -->
 
-        <!-- Content -->
+        <!-- Hero Content -->
         <div class="menu-content">
+
             <h1 id="cocktail-name"></h1>
+
             <p id="cocktail-description"></p>
+
             <div id="cocktail-price"></div>
+
         </div>
+
 
         <!-- Progress Bar -->
         <div class="progress-bar">
@@ -50,10 +69,68 @@
 
     </div>
 
-    <!-- Grid Layout -->
-    <div id="grid-layout"></div>
 
-    <!-- JavaScript -->
+    <!-- ==================================================
+         MENU BOARD LAYOUT
+         Cocina
+         ================================================== -->
+
+    <div id="grid-layout">
+
+        <!-- LEFT: MENU -->
+
+        <section class="kitchen-menu">
+
+            <header class="kitchen-header">
+
+                <div class="kitchen-brand">
+                  <img
+                    id="kitchen-logo"
+                    src=""
+                    alt="Mercadito La California"
+                  >
+                </div>
+
+            </header>
+
+
+            <!--
+                JavaScript will generate the five
+                Cocina products inside this container.
+            -->
+
+            <div id="kitchen-items"></div>
+
+        </section>
+
+
+        <!-- RIGHT: ROTATING PHOTOS -->
+
+        <section class="kitchen-media">
+
+            <img
+                id="kitchen-image-a"
+                class="kitchen-image active"
+                src=""
+                alt=""
+            >
+
+            <img
+                id="kitchen-image-b"
+                class="kitchen-image"
+                src=""
+                alt=""
+            >
+
+        </section>
+
+    </div>
+
+
+    <!-- ==================================================
+         JAVASCRIPT
+         ================================================== -->
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
     <script src="js/config.js"></script>

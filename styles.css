@@ -1,6 +1,6 @@
 /* =========================================================
+   DISTRITO CARMEN
    DIGITAL MENU SYSTEM
-   Main Player Styles
    ========================================================= */
 
 
@@ -25,15 +25,16 @@ body {
 
   overflow: hidden;
 
-  background: #ffffff;
+  background: #000000;
 
   font-family: 'Inter', sans-serif;
 }
 
 
-/* =========================
-   HERO CONTAINER
-   ========================= */
+/* =========================================================
+   HERO LAYOUT
+   PUB FELIX
+   ========================================================= */
 
 .menu-container {
   position: relative;
@@ -46,8 +47,9 @@ body {
   background: #ffffff;
 }
 
+
 /* =========================
-   COCKTAIL IMAGES / CROSSFADE
+   COCKTAIL IMAGES
    ========================= */
 
 .cocktail-image {
@@ -66,12 +68,10 @@ body {
 
   opacity: 0;
 
-  transition:
-    opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 
   z-index: 0;
 }
-
 
 .cocktail-image.active {
   opacity: 1;
@@ -97,8 +97,7 @@ body {
 
   opacity: 0;
 
-  transition:
-    opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 }
 
 
@@ -120,7 +119,7 @@ body {
 
 
 /* =========================
-   LOGO
+   LOGO - HERO
    ========================= */
 
 .logo {
@@ -133,7 +132,6 @@ body {
 
   pointer-events: none;
 }
-
 
 .logo img {
   display: block;
@@ -148,7 +146,7 @@ body {
 
 
 /* =========================
-   MENU CONTENT
+   HERO CONTENT
    ========================= */
 
 .menu-content {
@@ -165,8 +163,7 @@ body {
 
   z-index: 10;
 
-  transition:
-    opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 }
 
 
@@ -224,7 +221,7 @@ body {
 
 
 /* =========================
-   HERO FADE TRANSITION
+   HERO FADE
    ========================= */
 
 .menu-content.hero-fade-out {
@@ -252,24 +249,17 @@ body {
   overflow: hidden;
 }
 
-
 .progress {
   width: 0%;
   height: 100%;
 
   background: #666666;
-
-  /*
-   * No CSS animation.
-   *
-   * JavaScript controls the progress bar
-   * using SLIDE_DURATION.
-   */
 }
 
 
 /* =========================================================
-   GRID LAYOUT
+   KITCHEN
+   MERCADITO LA CALIFORNIA
    ========================================================= */
 
 #grid-layout {
@@ -278,163 +268,359 @@ body {
   top: 0;
   left: 0;
 
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 
   box-sizing: border-box;
 
-  padding: 60px 80px;
-
-  background: #ffffff;
-
-  color: #666666;
-
-  overflow-y: auto;
-
   display: none;
+
+  grid-template-columns:
+    minmax(0, 45fr)
+    minmax(0, 55fr);
+
+  background: #000000;
+
+  color: #B6FF00;
+
+  overflow: hidden;
 
   z-index: 40;
 }
 
 
-/* =========================
-   GRID CARDS
-   ========================= */
+/* =========================================================
+   KITCHEN - LEFT PANEL
+   ========================================================= */
 
-.grid-card {
+.kitchen-menu {
+  position: relative;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+
+  padding:
+    clamp(30px, 4vh, 55px)
+    clamp(45px, 4vw, 75px);
+
   display: flex;
   flex-direction: column;
 
+  justify-content: flex-start;
+
+  background: #000000;
+
   overflow: hidden;
 
-  background: #ffffff;
-
-  border-radius: 24px;
-}
-
-
-.grid-card img {
-  width: 100%;
-  height: 200px;
-
-  object-fit: contain;
-
-  background: #ffffff;
-}
-
-
-.grid-info {
-  padding: 24px;
-}
-
-
-.grid-name {
-  font-size: 42px;
-  font-weight: 600;
-
-  color: #666666;
-}
-
-
-.grid-description {
-  margin-top: 8px;
-
-  font-size: 20px;
-
-  color: #666666;
-
-  opacity: 0.8;
-}
-
-
-.grid-price {
-  margin-top: 16px;
-
-  font-size: 28px;
-
-  color: #666666;
+  z-index: 2;
 }
 
 
 /* =========================
-   GRID HERO ADAPTATION
+   KITCHEN HEADER
    ========================= */
 
-body[data-layout="grid"] .menu-content {
-  top: 50%;
-  left: 50%;
-  bottom: auto;
+.kitchen-header {
+  width: 100%;
 
-  max-width: 900px;
-
-  transform: translate(-50%, -50%);
-
-  text-align: center;
+  margin: 0 0 18px 0;
 }
 
 
-body[data-layout="grid"] #cocktail-name {
-  font-size: 72px;
+/* =========================
+   KITCHEN BRAND / LOGO
+   ========================= */
+
+.kitchen-brand {
+  width: 100%;
+
+  margin: 0 0 30px 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#kitchen-logo {
+  display: block;
+
+  width: 260px;
+  height: auto;
+
+  max-height: 190px;
+
+  object-fit: contain;
+  object-position: center;
 }
 
 
-body[data-layout="grid"] #cocktail-description {
-  font-size: 24px;
+/* Old text eyebrow
+   Kept in case it is ever used again
+   ========================= */
+
+.kitchen-eyebrow {
+  margin-bottom: 12px;
+
+  font-size:
+    clamp(14px, 1.1vw, 22px);
+
+  font-weight: 500;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+
+  color: #B6FF00;
+}
+
+
+/* =========================
+   KITCHEN TITLE
+   ========================= */
+
+.kitchen-title {
+  margin: 0;
+
+  font-family:
+    'Playfair Display',
+    serif;
+
+  font-size:
+    clamp(58px, 5.5vw, 92px);
+
+  font-weight: 700;
+
+  line-height: 0.95;
+
+  letter-spacing: -2px;
+
+  color: #B6FF00;
+}
+
+
+/* =========================
+   KITCHEN ITEMS CONTAINER
+   ========================= */
+
+#kitchen-items {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  flex: 0 0 auto;
+}
+
+
+/* =========================
+   KITCHEN ITEM
+   ========================= */
+
+.kitchen-item {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  column-gap: 25px;
+
+  padding:
+    clamp(14px, 1.7vh, 22px)
+    0;
+
+  border-bottom:
+    1px solid rgba(182, 255, 0, 0.22);
+}
+
+.kitchen-item:first-child {
+  border-top:
+    1px solid rgba(182, 255, 0, 0.22);
+}
+
+
+/* =========================
+   KITCHEN ITEM NAME
+   ========================= */
+
+.kitchen-item-name {
+  min-width: 0;
+
+  font-size:
+    clamp(22px, 1.8vw, 34px);
+
+  font-weight: 400;
+
+  line-height: 1.12;
+
+  letter-spacing: -0.02em;
+
+  color: #B6FF00;
+}
+
+
+/* =========================
+   KITCHEN ITEM PRICE
+   ========================= */
+
+.kitchen-item-price {
+  flex-shrink: 0;
+
+  white-space: nowrap;
+
+  font-size:
+    clamp(22px, 1.7vw, 32px);
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  color: #B6FF00;
+
+  text-align: right;
 }
 
 
 /* =========================================================
-   FOOD MENU
+   KITCHEN - RIGHT PHOTO PANEL
    ========================================================= */
 
-.food-row {
-  display: flex;
+.kitchen-media {
+  position: relative;
 
-  justify-content: space-between;
-  align-items: flex-start;
-
-  padding: 28px 0;
-
-  border-bottom:
-    1px solid rgba(102, 102, 102, 0.12);
+  width: 100%;
+  height: 100%;
 
   overflow: hidden;
+
+  background: #000000;
+
+  z-index: 1;
 }
 
 
-.food-left {
-  max-width: 70%;
+/* =========================
+   KITCHEN IMAGES
+   ========================= */
+
+.kitchen-image {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center center;
+
+  opacity: 0;
+
+  transition: opacity 0.4s ease-in-out;
+
+  background: transparent;
+}
+
+.kitchen-image.active {
+  opacity: 1;
 }
 
 
-.food-name {
-  font-size: 34px;
-  font-weight: 600;
+/* =========================================================
+   LARGE 16:9 TV
+   ========================================================= */
 
-  color: #666666;
+@media (min-width: 1600px) {
+
+  .kitchen-menu {
+    padding:
+      45px
+      75px;
+  }
+
+  #kitchen-logo {
+    width: 260px;
+    max-height: 190px;
+  }
+
+  .kitchen-brand {
+    margin-bottom: 18px;
+  }
+
+  .kitchen-header {
+    margin-bottom: 18px;
+  }
+
+  .kitchen-title {
+    font-size: 88px;
+  }
+
+  .kitchen-item {
+    padding: 18px 0;
+  }
+
+  .kitchen-item-name {
+    font-size: 32px;
+  }
+
+  .kitchen-item-price {
+    font-size: 30px;
+  }
 }
 
 
-.food-desc {
-  margin-top: 6px;
+/* =========================================================
+   SMALLER SCREENS
+   ========================================================= */
 
-  font-size: 20px;
+@media (max-width: 1100px) {
 
-  color: #666666;
+  #grid-layout {
+    grid-template-columns:
+      minmax(0, 50fr)
+      minmax(0, 50fr);
+  }
 
-  opacity: 0.7;
-}
+  .kitchen-menu {
+    padding:
+      30px
+      38px;
+  }
 
+  #kitchen-logo {
+    width: 120px;
+    max-height: 90px;
+  }
 
-.food-price {
-  min-width: 140px;
+  .kitchen-brand {
+    margin-bottom: 12px;
+  }
 
-  flex-shrink: 0;
+  .kitchen-header {
+    margin-bottom: 14px;
+  }
 
-  font-size: 28px;
-  font-weight: 600;
+  .kitchen-title {
+    font-size: 58px;
+  }
 
-  text-align: right;
+  .kitchen-item {
+    padding: 13px 0;
+  }
 
-  color: #666666;
+  .kitchen-item-name {
+    font-size: 22px;
+  }
+
+  .kitchen-item-price {
+    font-size: 21px;
+  }
 }

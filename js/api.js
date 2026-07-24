@@ -17,6 +17,11 @@ async function getScreen(screenCode) {
     return data[0];
 }
 
+
+// ==============================
+// GET MENU ITEMS FOR SCREEN
+// ==============================
+
 async function getMenuItemsForScreen(screenId) {
 
     const { data, error } = await db
@@ -28,10 +33,24 @@ async function getMenuItemsForScreen(screenId) {
     console.table(data);
     console.log(error);
 
+    if (error) {
+        console.error(error);
+        return [];
+    }
+
     return data;
 }
 
+
+// ==============================
+// GET MENU ITEMS
+// ==============================
+
 async function getMenuItems(menuItemIds) {
+
+    if (!menuItemIds || menuItemIds.length === 0) {
+        return [];
+    }
 
     const { data, error } = await db
         .from("menu_items")
@@ -53,6 +72,43 @@ async function getMenuItems(menuItemIds) {
     return data;
 }
 
+
+// ==============================
+// GET MENU ITEM MEDIA
+// ==============================
+
+async function getMenuItemMedia(menuItemIds) {
+
+    if (!menuItemIds || menuItemIds.length === 0) {
+        return [];
+    }
+
+    const { data, error } = await db
+        .from("menu_item_media")
+        .select("*")
+        .in("menu_item_id", menuItemIds)
+        .eq("active", true)
+        .order("display_order", {
+            ascending: true
+        });
+
+    if (error) {
+        console.error(
+            "Error loading menu item media:",
+            error
+        );
+
+        return [];
+    }
+
+    return data;
+}
+
+
+// ==============================
+// GET ASSET URL
+// ==============================
+
 function getAssetUrl(path) {
 
     if (!path) {
@@ -64,5 +120,8 @@ function getAssetUrl(path) {
         .from("menu-assets")
         .getPublicUrl(path);
 
-    return data.publicUrl;
+    // Cache busting:
+    // forces the browser to request the latest version
+    // of an asset when the player is loaded.
+    return `${data.publicUrl}?v=${Date.now()}`;
 }

@@ -3,6 +3,13 @@
 const TRANSITION_DURATION = 400;
 
 let activeImage = "a";
+let activeKitchenImage = "a";
+
+
+// =====================================================
+// HERO LAYOUT
+// Pub Felix
+// =====================================================
 
 
 // ==============================
@@ -33,8 +40,6 @@ function renderHero(item) {
         activeImage = "a";
     }
 
-
-    // TEXT
     updateHeroContent(item);
 }
 
@@ -58,7 +63,6 @@ function transitionHero(item) {
     const content =
         document.querySelector(".menu-content");
 
-
     const currentImage =
         activeImage === "a"
             ? imageA
@@ -70,46 +74,38 @@ function transitionHero(item) {
             : imageA;
 
 
-    // Prepare next image
     if (item.image_url) {
 
         nextImage.src = item.image_url;
 
         nextImage.onload = () => {
 
-            // Crossfade images
             nextImage.classList.add("active");
             currentImage.classList.remove("active");
 
         };
 
-        // If image is already cached
         if (nextImage.complete) {
 
             nextImage.classList.add("active");
             currentImage.classList.remove("active");
 
         }
-
     }
 
 
-    // Fade text out
     content.classList.add("hero-fade-out");
 
 
     setTimeout(() => {
 
-        // Update text while invisible
         updateHeroContent(item);
 
-        // Fade text back in
         content.classList.remove("hero-fade-out");
 
     }, TRANSITION_DURATION);
 
 
-    // Switch active image
     activeImage =
         activeImage === "a"
             ? "b"
@@ -141,6 +137,186 @@ function updateHeroContent(item) {
 
     priceElement.textContent =
         formatPrice(item.price);
+}
+
+
+// =====================================================
+// KITCHEN LAYOUT
+// Cocina
+// =====================================================
+
+
+// ==============================
+// RENDER KITCHEN MENU
+// ==============================
+
+function renderKitchenMenu(items) {
+
+    // ==============================
+    // KITCHEN LOGO
+    // ==============================
+
+    const kitchenLogo =
+        document.getElementById("kitchen-logo");
+
+    if (kitchenLogo) {
+        kitchenLogo.src = getAssetUrl(
+            "logos/mercadito-la-california-logo.png"
+        );
+    }
+
+    const container =
+        document.getElementById("kitchen-items");
+
+    if (!container) {
+        console.error("Kitchen items container not found.");
+        return;
+    }
+
+    container.innerHTML = "";
+
+
+    items.forEach(item => {
+
+        const row =
+            document.createElement("div");
+
+        row.className = "kitchen-item";
+
+
+        const name =
+            document.createElement("div");
+
+        name.className = "kitchen-item-name";
+
+        name.textContent =
+            item.name || "";
+
+
+        const price =
+            document.createElement("div");
+
+        price.className = "kitchen-item-price";
+
+        price.textContent =
+            formatPrice(item.price);
+
+
+        row.appendChild(name);
+        row.appendChild(price);
+
+        container.appendChild(row);
+    });
+}
+
+
+// ==============================
+// PREPARE KITCHEN MEDIA
+// ==============================
+
+function buildKitchenMedia(media) {
+
+    if (!media || media.length === 0) {
+        return [];
+    }
+
+    return media
+        .filter(item =>
+            item.active === true &&
+            item.media_type === "image"
+        )
+        .sort((a, b) =>
+            a.display_order - b.display_order
+        )
+        .map(item => ({
+            ...item,
+            image_url: getAssetUrl(item.file_path)
+        }));
+}
+
+
+// ==============================
+// FIRST KITCHEN IMAGE
+// ==============================
+
+function renderKitchenImage(item) {
+
+    if (!item || !item.image_url) {
+        return;
+    }
+
+    const imageA =
+        document.getElementById("kitchen-image-a");
+
+    const imageB =
+        document.getElementById("kitchen-image-b");
+
+    if (!imageA || !imageB) {
+        return;
+    }
+
+
+    imageA.src = item.image_url;
+
+    imageA.classList.add("active");
+    imageB.classList.remove("active");
+
+    activeKitchenImage = "a";
+}
+
+
+// ==============================
+// KITCHEN IMAGE CROSSFADE
+// ==============================
+
+function transitionKitchenImage(item) {
+
+    if (!item || !item.image_url) {
+        return;
+    }
+
+    const imageA =
+        document.getElementById("kitchen-image-a");
+
+    const imageB =
+        document.getElementById("kitchen-image-b");
+
+
+    const currentImage =
+        activeKitchenImage === "a"
+            ? imageA
+            : imageB;
+
+    const nextImage =
+        activeKitchenImage === "a"
+            ? imageB
+            : imageA;
+
+
+    nextImage.src = item.image_url;
+
+
+    const showNextImage = () => {
+
+        nextImage.classList.add("active");
+
+        currentImage.classList.remove("active");
+
+    };
+
+
+    nextImage.onload = showNextImage;
+
+
+    if (nextImage.complete) {
+        showNextImage();
+    }
+
+
+    activeKitchenImage =
+        activeKitchenImage === "a"
+            ? "b"
+            : "a";
 }
 
 

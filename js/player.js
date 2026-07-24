@@ -1,6 +1,7 @@
 // js/player.js
 
 const SLIDE_DURATION = 6000;
+const KITCHEN_IMAGE_DURATION = 6000;
 
 
 // ==============================
@@ -17,7 +18,11 @@ async function startPlayer() {
         return;
     }
 
-    // Load screen
+
+    // ==========================
+    // LOAD SCREEN
+    // ==========================
+
     const screen = await getScreen(screenCode);
 
     if (!screen) {
@@ -28,46 +33,91 @@ async function startPlayer() {
     console.log("Screen Loaded:", screen);
 
 
-    // Load screen/menu relationships
-    const screenMenuItems = await getMenuItemsForScreen(screen.id);
+    // ==========================
+    // LOAD SCREEN MENU
+    // ==========================
 
-    if (!screenMenuItems || screenMenuItems.length === 0) {
-        console.error("No menu items assigned to this screen.");
+    const screenMenuItems =
+        await getMenuItemsForScreen(screen.id);
+
+    if (
+        !screenMenuItems ||
+        screenMenuItems.length === 0
+    ) {
+        console.error(
+            "No menu items assigned to this screen."
+        );
+
         return;
     }
 
 
-    // Get menu item IDs
-    const menuItemIds = screenMenuItems.map(
-        item => item.menu_item_id
-    );
+    // ==========================
+    // GET MENU ITEM IDS
+    // ==========================
+
+    const menuItemIds =
+        screenMenuItems.map(
+            item => item.menu_item_id
+        );
 
 
-    // Load actual menu items
-    const menuItems = await getMenuItems(menuItemIds);
+    // ==========================
+    // LOAD MENU ITEMS + MEDIA
+    // ==========================
+
+    const menuItems =
+        await getMenuItems(menuItemIds);
+
+    const menuMedia =
+        await getMenuItemMedia(menuItemIds);
+
+    console.log("MENU MEDIA:", menuMedia);
 
 
-    // Build ordered player menu
-    const playerMenu = buildPlayerMenu(
-        screenMenuItems,
-        menuItems
-    );
+    // ==========================
+    // BUILD ORDERED MENU
+    // ==========================
+
+    const playerMenu =
+        buildPlayerMenu(
+            screenMenuItems,
+            menuItems
+        );
 
     if (playerMenu.length === 0) {
-        console.error("Player menu is empty.");
+
+        console.error(
+            "Player menu is empty."
+        );
+
         return;
     }
 
     console.log("PLAYER MENU:", playerMenu);
 
 
-    // Preload all images before starting rotation
+    // ==========================
+    // CHOOSE LAYOUT
+    // ==========================
+
+    if (screen.layout === "grid") {
+
+        startKitchen(
+            playerMenu,
+            menuMedia
+        );
+
+        return;
+    }
+
+
+    // Default layout = HERO
+
     await preloadImages(playerMenu);
 
     console.log("IMAGES PRELOADED");
 
-
-    // Start player
     startRotation(playerMenu);
 }
 
@@ -76,14 +126,20 @@ async function startPlayer() {
 // BUILD PLAYER MENU
 // ==============================
 
-function buildPlayerMenu(screenMenuItems, menuItems) {
+function buildPlayerMenu(
+    screenMenuItems,
+    menuItems
+) {
 
     return screenMenuItems
         .map(screenItem => {
 
-            const menuItem = menuItems.find(
-                item => item.id === screenItem.menu_item_id
-            );
+            const menuItem =
+                menuItems.find(
+                    item =>
+                        item.id ===
+                        screenItem.menu_item_id
+                );
 
             if (!menuItem) {
                 return null;
@@ -91,95 +147,120 @@ function buildPlayerMenu(screenMenuItems, menuItems) {
 
             return {
                 ...menuItem,
-                display_order: screenItem.display_order
+                display_order:
+                    screenItem.display_order
             };
         })
         .filter(item => item !== null)
         .sort(
-            (a, b) => a.display_order - b.display_order
+            (a, b) =>
+                a.display_order -
+                b.display_order
         );
 }
 
 
+// =====================================================
+// HERO
+// Pub Felix
+// =====================================================
+
+
 // ==============================
-// PRELOAD IMAGES
+// PRELOAD HERO IMAGES
 // ==============================
 
 async function preloadImages(playerMenu) {
 
-    const promises = playerMenu.map(item => {
+    const promises =
+        playerMenu.map(item => {
 
-        if (!item.image_path) {
-            return Promise.resolve();
-        }
+            if (!item.image_path) {
+                return Promise.resolve();
+            }
 
-        const imageUrl = getAssetUrl(item.image_path);
+            const imageUrl =
+                getAssetUrl(item.image_path);
 
-        // Store final URL in player item
-        item.image_url = imageUrl;
+            item.image_url = imageUrl;
 
-        return new Promise(resolve => {
 
-            const img = new Image();
+            return new Promise(resolve => {
 
-            img.onload = resolve;
+                const img = new Image();
 
-            img.onerror = () => {
-                console.error(
-                    "Failed to preload image:",
-                    imageUrl
-                );
+                img.onload = resolve;
 
-                resolve();
-            };
+                img.onerror = () => {
 
-            img.src = imageUrl;
+                    console.error(
+                        "Failed to preload image:",
+                        imageUrl
+                    );
+
+                    resolve();
+                };
+
+                img.src = imageUrl;
+            });
         });
-    });
+
 
     await Promise.all(promises);
 }
 
 
 // ==============================
-// ROTATION
+// HERO ROTATION
 // ==============================
 
 function startRotation(playerMenu) {
 
-    if (!playerMenu || playerMenu.length === 0) {
-        console.error("No items to rotate.");
+    if (
+        !playerMenu ||
+        playerMenu.length === 0
+    ) {
+
+        console.error(
+            "No items to rotate."
+        );
+
         return;
     }
 
+
     let currentIndex = 0;
     let firstRender = true;
+
 
     function showCurrentItem() {
 
         const currentItem =
             playerMenu[currentIndex];
 
+
         if (firstRender) {
 
-            // First item appears immediately
             renderHero(currentItem);
 
             firstRender = false;
 
         } else {
 
-            // Remaining items use fade transition
             transitionHero(currentItem);
 
         }
 
-        // Progress bar remains synchronized
-        restartProgressBar(SLIDE_DURATION);
+
+        restartProgressBar(
+            SLIDE_DURATION
+        );
+
 
         if (playerMenu.length === 1) {
             return;
         }
+
 
         setTimeout(() => {
 
@@ -192,7 +273,180 @@ function startRotation(playerMenu) {
         }, SLIDE_DURATION);
     }
 
+
     showCurrentItem();
+}
+
+
+// =====================================================
+// KITCHEN
+// Cocina
+// =====================================================
+
+
+// ==============================
+// START KITCHEN
+// ==============================
+
+async function startKitchen(
+    playerMenu,
+    menuMedia
+) {
+
+    console.log("STARTING KITCHEN");
+
+
+    // Hide Hero
+    const heroLayout =
+        document.getElementById(
+            "hero-layout"
+        );
+
+    if (heroLayout) {
+        heroLayout.style.display = "none";
+    }
+
+
+    // Show Kitchen/Grid
+    const gridLayout =
+        document.getElementById(
+            "grid-layout"
+        );
+
+    if (gridLayout) {
+        gridLayout.style.display = "grid";
+    }
+
+
+    // Render static menu
+    renderKitchenMenu(playerMenu);
+
+
+    // Prepare media URLs
+    const kitchenMedia =
+        buildKitchenMedia(menuMedia);
+
+    console.log(
+        "KITCHEN MEDIA:",
+        kitchenMedia
+    );
+
+
+    if (kitchenMedia.length === 0) {
+
+        console.warn(
+            "No kitchen media available."
+        );
+
+        return;
+    }
+
+
+    // Preload all kitchen images
+    await preloadKitchenImages(
+        kitchenMedia
+    );
+
+    console.log(
+        "KITCHEN IMAGES PRELOADED"
+    );
+
+
+    // Start photo rotation
+    startKitchenRotation(
+        kitchenMedia
+    );
+}
+
+
+// ==============================
+// PRELOAD KITCHEN IMAGES
+// ==============================
+
+async function preloadKitchenImages(
+    media
+) {
+
+    const promises =
+        media.map(item => {
+
+            if (!item.image_url) {
+                return Promise.resolve();
+            }
+
+
+            return new Promise(resolve => {
+
+                const img =
+                    new Image();
+
+                img.onload =
+                    resolve;
+
+
+                img.onerror = () => {
+
+                    console.error(
+                        "Failed to preload kitchen image:",
+                        item.image_url
+                    );
+
+                    resolve();
+                };
+
+
+                img.src =
+                    item.image_url;
+            });
+        });
+
+
+    await Promise.all(promises);
+}
+
+
+// ==============================
+// KITCHEN IMAGE ROTATION
+// ==============================
+
+function startKitchenRotation(media) {
+
+    if (
+        !media ||
+        media.length === 0
+    ) {
+
+        return;
+    }
+
+
+    let currentIndex = 0;
+
+
+    // First image
+    renderKitchenImage(
+        media[currentIndex]
+    );
+
+
+    // Only one image = no rotation
+    if (media.length === 1) {
+        return;
+    }
+
+
+    setInterval(() => {
+
+        currentIndex =
+            (currentIndex + 1) %
+            media.length;
+
+
+        transitionKitchenImage(
+            media[currentIndex]
+        );
+
+    }, KITCHEN_IMAGE_DURATION);
 }
 
 
