@@ -63,6 +63,7 @@ async function getMenuItems(menuItemIds) {
             )
         `)
         .in("id", menuItemIds);
+        .eq("active", true);
 
     if (error) {
         console.error(error);
