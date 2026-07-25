@@ -62,7 +62,7 @@ async function getMenuItems(menuItemIds) {
                 code
             )
         `)
-        .in("id", menuItemIds);
+        .in("id", menuItemIds)
         .eq("active", true);
 
     if (error) {
