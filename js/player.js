@@ -454,10 +454,11 @@ function startKitchenRotation(media) {
 // AUTOMATIC PLAYER REFRESH
 // =====================================================
 
-// Reload every 5 minutes so Raspberry Pi screens
-// automatically receive new deployments and updates.
+// Reload every 2 hours so Raspberry Pi screens
+// receive updates while reducing Supabase bandwidth usage.
 
-const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000;
+
+const AUTO_REFRESH_INTERVAL = 2 * 60 * 60 * 1000;
 
 setTimeout(() => {
     window.location.reload();
