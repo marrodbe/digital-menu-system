@@ -126,3 +126,42 @@ function getAssetUrl(path) {
     // of an asset when the player is loaded.
     return `${data.publicUrl}?v=${Date.now()}`;
 }
+
+// =====================================================
+// SYSTEM STATE
+// =====================================================
+
+async function getSystemLastUpdate() {
+
+    const { data, error } = await db
+        .from("system_state")
+        .select("last_update")
+        .eq("id", 1)
+        .single();
+
+    if (error) {
+        console.error(
+            "Error loading system state:",
+            error
+        );
+
+        return null;
+    }
+
+    return data.last_update;
+}
+
+async function notifyMenuChanged() {
+
+    const { error } = await db
+        .from("system_state")
+        .update({
+            last_update: new Date().toISOString()
+        })
+        .eq("id", 1);
+
+    if (error) {
+        console.error("Error notifying menu change:", error);
+    }
+
+}

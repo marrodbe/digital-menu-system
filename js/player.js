@@ -3,6 +3,13 @@
 const SLIDE_DURATION = 6000;
 const KITCHEN_IMAGE_DURATION = 6000;
 
+// =====================================================
+// SYSTEM UPDATE WATCHER
+// =====================================================
+
+let lastSystemUpdate = null;
+let realtimeChannel = null;
+
 
 // ==============================
 // START PLAYER
@@ -18,7 +25,6 @@ async function startPlayer() {
         return;
     }
 
-
     // ==========================
     // LOAD SCREEN
     // ==========================
@@ -31,6 +37,65 @@ async function startPlayer() {
     }
 
     console.log("Screen Loaded:", screen);
+
+    // ==========================
+    // SYSTEM STATE
+    // ==========================
+
+    lastSystemUpdate = await getSystemLastUpdate();
+
+    console.log("SYSTEM LAST UPDATE:", lastSystemUpdate);
+
+    // ==========================
+// REALTIME
+// ==========================
+
+if (!realtimeChannel) {
+
+    realtimeChannel = db
+        .channel("system-state")
+
+        .on(
+            "postgres_changes",
+            {
+                event: "UPDATE",
+                schema: "public",
+                table: "system_state"
+            },
+            (payload) => {
+
+                console.log(
+                    "Realtime update received:",
+                    payload.new.last_update
+                );
+
+                if (
+                    payload.new.last_update !== lastSystemUpdate
+                ) {
+
+                    lastSystemUpdate = payload.new.last_update;
+
+                    console.log(
+                        "🔄 Menu updated. Reloading page..."
+                    );
+
+                    window.location.reload();
+
+                }
+
+            }
+        )
+
+        .subscribe((status) => {
+
+            console.log(
+                "Supabase Realtime status:",
+                status
+            );
+
+        });
+
+}
 
 
     // ==========================
@@ -448,21 +513,6 @@ function startKitchenRotation(media) {
 
     }, KITCHEN_IMAGE_DURATION);
 }
-
-
-// =====================================================
-// AUTOMATIC PLAYER REFRESH
-// =====================================================
-
-// Reload every 2 hours so Raspberry Pi screens
-// receive updates while reducing Supabase bandwidth usage.
-
-
-const AUTO_REFRESH_INTERVAL = 2 * 60 * 60 * 1000;
-
-setTimeout(() => {
-    window.location.reload();
-}, AUTO_REFRESH_INTERVAL);
 
 // ==============================
 // INITIALIZE
