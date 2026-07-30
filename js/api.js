@@ -121,10 +121,10 @@ function getAssetUrl(path) {
         .from("menu-assets")
         .getPublicUrl(path);
 
-    // Cache busting:
-    // forces the browser to request the latest version
-    // of an asset when the player is loaded.
-    return `${data.publicUrl}?v=${Date.now()}`;
+    // Asset versioning:
+    // APP_VERSION changes only on deployments,
+    // allowing browsers to cache assets between restarts.
+    return `${data.publicUrl}?v=${APP_VERSION}`;
 }
 
 // =====================================================
