@@ -4,3 +4,9 @@ const CONFIG = {
 };
 
 console.log("CONFIG LOADED");
+
+// ==========================
+// APPLICATION
+// ==========================
+
+const APP_VERSION = "1.0.0";

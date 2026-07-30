@@ -165,3 +165,80 @@ async function notifyMenuChanged() {
     }
 
 }
+
+// ==========================
+// DASHBOARD
+// ==========================
+
+async function getScreenStatus() {
+
+    const { data, error } = await db
+        .from("screen_status")
+        .select("*")
+        .order("screen");
+
+    if (error) {
+
+        console.error(error);
+        return [];
+
+    }
+
+    return data;
+
+}
+
+async function getOnlineScreens() {
+
+    const screens = await getScreenStatus();
+
+    const now = Date.now();
+
+    return screens.filter(screen => {
+
+        const lastSeen = new Date(screen.last_seen).getTime();
+
+        return (now - lastSeen) < 90000;
+
+    });
+
+}
+
+async function getOfflineScreens() {
+
+    const screens = await getScreenStatus();
+
+    const now = Date.now();
+
+    return screens.filter(screen => {
+
+        const lastSeen = new Date(screen.last_seen).getTime();
+
+        return (now - lastSeen) >= 90000;
+
+    });
+
+}
+
+// ==========================================
+// DASHBOARD
+// ==========================================
+
+async function getDashboardPlayers() {
+
+    const { data, error } = await db
+        .from("dashboard_players")
+        .select("*")
+        .order("name");
+
+    if (error) {
+
+        console.error(error);
+
+        return [];
+
+    }
+
+    return data;
+
+}

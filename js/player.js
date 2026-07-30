@@ -19,6 +19,7 @@ async function startPlayer() {
 
     const params = new URLSearchParams(window.location.search);
     const screenCode = params.get("screen");
+    
 
     if (!screenCode) {
         console.error("No screen specified.");
@@ -30,6 +31,8 @@ async function startPlayer() {
     // ==========================
 
     const screen = await getScreen(screenCode);
+
+    await startHeartbeat(screen);
 
     if (!screen) {
         console.error("Screen not found.");
